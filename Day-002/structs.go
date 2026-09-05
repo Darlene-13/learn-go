@@ -178,7 +178,7 @@ type mCar struct {
 }
 
 type truck struct {
-	car
+	mCar
 	bedsize int
 }
 
