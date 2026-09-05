@@ -354,7 +354,7 @@ package main
 //     Read() error
 // }
 //
-// type writer interface {
+// typewriter interface {
 //     Write() error
 // }
 //
