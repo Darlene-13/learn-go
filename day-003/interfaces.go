@@ -3,7 +3,8 @@ package main
 // ============================================================
 // GO INTERFACES — NOTES
 // ============================================================
-
+//Interfaces are meant to define the minimal behavior of an object
+///Interfaces shouldn't be aware of any types that happen to satisfy the interface design time
 // 1. INTERFACES
 //
 // An interface is a collection of method signatures.
@@ -259,3 +260,137 @@ package main
 //
 // A type can therefore satisfy one interface, several interfaces,
 // or many interfaces depending on the methods it provides.
+
+// ============================================================
+// INTERFACE DESIGN
+// ============================================================
+
+// An interface describes BEHAVIOR / CAPABILITY.
+//
+// Think:
+//     "What can this type DO?"
+//
+// Not:
+//     "What IS this type?"
+
+// Good interfaces usually describe a capability:
+//
+// Reader      -> Read()
+// Writer      -> Write()
+// Closer      -> Close()
+// Printer     -> Print()
+// Payment     -> Pay()
+// Notifier    -> Notify()
+// Serializer  -> Serialize()
+
+// The interface is a CONTRACT that says:
+// "If you want to satisfy me, you must be able to do these things."
+
+// ============================================================
+// INTERFACES SHOULD FOCUS ON BEHAVIOR
+// ============================================================
+
+// GOOD:
+//
+// type printer interface {
+//     print()
+// }
+//
+// This describes a capability:
+//
+// "Anything that can print can satisfy printer."
+
+//
+// BAD:
+//
+// type payment interface {
+//     IsMpesa() bool
+//     IsCard() bool
+//     IsPayPal() bool
+// }
+//
+// This is trying to identify WHAT something IS
+// instead of describing WHAT it CAN DO.
+//
+// The interface should not become a list of possible
+// concrete implementations.
+
+// ============================================================
+// INTERFACE BLOAT
+// ============================================================
+
+// Avoid putting unrelated or overly specific methods
+// into a general interface.
+//
+// If an interface keeps growing:
+//
+// type payment interface {
+//     Pay()
+//     IsMpesa()
+//     IsCard()
+//     IsPayPal()
+//     IsCash()
+//     IsCrypto()
+// }
+//
+// the interface is becoming bloated.
+//
+// Every type that wants to satisfy the interface now has
+// to implement methods that may have nothing to do with
+// its actual capability.
+
+// Keep interfaces SMALL and focused.
+
+// ============================================================
+// INTERFACE SEGREGATION
+// ============================================================
+
+// Prefer several small interfaces based on capabilities
+// rather than one giant interface.
+//
+// Example:
+//
+// type reader interface {
+//     Read() error
+// }
+//
+// type writer interface {
+//     Write() error
+// }
+//
+// A type can implement either one or both.
+//
+// This allows us to say:
+//
+// "I don't care what you are.
+// I only care that you can Read."
+
+// ============================================================
+// INTERFACES ARE NOT CLASSES
+// ============================================================
+
+// Go interfaces are much slimmer than traditional classes.
+//
+// Interfaces do NOT contain:
+//
+//     - fields/state
+//     - constructors
+//     - destructors
+//     - object lifecycle logic
+//     - method implementations
+//
+// They mainly define method signatures.
+
+// Example:
+//
+// type printer interface {
+//     print()
+// }
+//
+// This only defines the contract.
+//
+// It does not tell us HOW print() works.
+
+// ============================================================
+// INTERFACES DEFINE SIGNATURES, NOT BEHAVIOR
+// =================================================

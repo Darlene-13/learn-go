@@ -1,53 +1,50 @@
+// Type switch makes it easy to do type assertions in series
+// It is similar to regular switch case but then a bit different in that the case is the type and not the value
 package main
 
 import "fmt"
 
 // TYPE ASSERTION
-func getExpenseReport(e expense1) (string, float64) {
-
-	em, ok := e.(email1)
-	if ok {
-		return em.toAddress, em.cost()
+func getExpenseReport2(e expense2) (string, float64) {
+	switch v := e.(type) {
+	case email2:
+		return v.toAddress, v.cost()
+	case sms2:
+		return v.toPhoneNumber, v.cost()
+	default:
+		return "", 0.0
 	}
-
-	sm, ok := e.(sms)
-	if ok {
-		return sm.toPhoneNumber, sm.cost()
-	}
-
-	return "", 0.0
 }
 
 // STRUCTS
 
-type email1 struct {
+type email2 struct {
 	isSubscribed bool
 	body         string
 	toAddress    string
 }
 
-type sms struct {
+type sms2 struct {
 	isSubscribed  bool
 	body          string
 	toPhoneNumber string
 }
 
-type invalid struct {
-}
+type invalid2 struct{}
 
 // INTERFACES
 
-type expense1 interface {
+type expense2 interface {
 	cost() float64
 }
 
-type printer1 interface {
+type printer2 interface {
 	print()
 }
 
 // METHODS
 
-func (e email1) cost() float64 {
+func (e email2) cost() float64 {
 
 	if !e.isSubscribed {
 		return 0.05 * float64(len(e.body))
@@ -56,11 +53,11 @@ func (e email1) cost() float64 {
 	return 0.01 * float64(len(e.body))
 }
 
-func (e email1) print() {
+func (e email2) print() {
 	fmt.Println(e.body)
 }
 
-func (sm sms) cost() float64 {
+func (sm sms2) cost() float64 {
 
 	if !sm.isSubscribed {
 		return 0.05 * float64(len(sm.body))
@@ -69,17 +66,17 @@ func (sm sms) cost() float64 {
 	return 0.01 * float64(len(sm.body))
 }
 
-func (sm sms) print() {
+func (sm sms2) print() {
 	fmt.Println(sm.body)
 }
 
-func (i invalid) cost() float64 {
+func (i invalid2) cost() float64 {
 	return 0.0
 }
 
 // HELPER FUNCTIONS
 
-func getEmail1(e expense1, p printer1) {
+func getEmail2(e expense2, p printer2) {
 
 	fmt.Println("=============================================")
 
@@ -91,7 +88,7 @@ func getEmail1(e expense1, p printer1) {
 	p.print()
 }
 
-func getSms(sm expense1, s printer1) {
+func getSms2(sm expense2, s printer2) {
 
 	fmt.Println("=============================================")
 
@@ -105,13 +102,13 @@ func getSms(sm expense1, s printer1) {
 
 // TYPE SWITCH
 
-func getEmailOrSms(e expense1) {
+func getEmailOrSms2(e expense2) {
 
-	address, cost := getExpenseReport(e)
+	address, cost := getExpenseReport2(e)
 
 	switch e.(type) {
 
-	case email1:
+	case email2:
 
 		fmt.Printf(
 			"Report: The email is going to %s and it will cost: %.2f\n",
@@ -121,7 +118,7 @@ func getEmailOrSms(e expense1) {
 
 		fmt.Println("=================================================================")
 
-	case sms:
+	case sms2:
 
 		fmt.Printf(
 			"Report: The sms is going to %s and it will cost: %.2f\n",
@@ -145,62 +142,64 @@ func main() {
 
 	// EMAIL 1
 
-	e1 := email1{
+	e2 := email2{
 		isSubscribed: true,
 		body:         "Hello there!",
 	}
 
-	getEmail1(e1, e1)
+	getEmail2(e2, e2)
 
 	// EMAIL 2
 
-	e1 = email1{
+	e2 = email2{
 		isSubscribed: false,
 		body:         "I want my money back",
 	}
 
-	getEmail1(e1, e1)
+	getEmail2(e2, e2)
 
 	// EMAIL 3
 
-	e1 = email1{
+	e2 = email2{
 		isSubscribed: true,
 		body:         "I will send it to you tomorrow",
 	}
 
-	getEmail1(e1, e1)
+	getEmail2(e2, e2)
 
 	// SMS 1
 
-	sm := sms{
+	sm2 := sms2{
 		isSubscribed:  true,
 		toPhoneNumber: "070000000",
 		body:          "Where are you?",
 	}
 
-	getSms(sm, sm)
+	getSms2(sm2, sm2)
 
 	// SMS 2
 
-	sm = sms{
+	sm2 = sms2{
 		isSubscribed:  true,
 		toPhoneNumber: "070000000",
 		body:          "I am at the Club",
 	}
 
-	getSms(sm, sm)
+	getSms2(sm2, sm2)
 
 	// SMS 3
-	sm = sms{
+
+	sm2 = sms2{
 		isSubscribed:  false,
 		toPhoneNumber: "070000000",
 		body:          "Okay please come how now?",
 	}
 
-	getSms(sm, sm)
+	getSms2(sm2, sm2)
 
 	// EMAIL REPORT 1
-	getEmailOrSms(email1{
+
+	getEmailOrSms2(email2{
 		isSubscribed: true,
 		body:         "Hello baby!",
 		toAddress:    "janedoe@gmail.com",
@@ -208,26 +207,29 @@ func main() {
 
 	// EMAIL REPORT 2
 
-	getEmailOrSms(email1{
+	getEmailOrSms2(email2{
 		isSubscribed: false,
 		body:         "Hello there, my friend!",
 		toAddress:    "johndoe@gmail.com",
 	})
 
 	// SMS REPORT 1
-	getEmailOrSms(sms{
+
+	getEmailOrSms2(sms2{
 		isSubscribed:  true,
 		body:          "What would you want to have for dinner?",
 		toPhoneNumber: "0790909990",
 	})
 
 	// SMS REPORT 2
-	getEmailOrSms(sms{
+
+	getEmailOrSms2(sms2{
 		isSubscribed:  false,
 		body:          "I would love to have some chicken soup and cassava?",
 		toPhoneNumber: "0790909990",
 	})
 
 	// INVALID EXPENSE
-	getEmailOrSms(invalid{})
+
+	getEmailOrSms2(invalid2{})
 }
