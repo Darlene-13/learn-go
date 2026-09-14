@@ -9,6 +9,11 @@ type SMS struct {
 	Message string `json:"message"`
 }
 
+type customer struct {
+	Name string `json:"name"`
+	age  int
+}
+
 // Expense interface represents anything that has a cost
 type expense interface {
 	Cost() float64
@@ -19,7 +24,12 @@ func (s SMS) Cost() float64 {
 	return costPerChar * float64(len(s.Message))
 }
 
-// Method to send sms after validating its length
+// Function template to catch or get errors
+func getSMSErrorString(cost float64, recipient string) {
+	fmt.Printf("SMS that costs %.2fCOST to be sent to %v can not be sent!\n", cost, recipient)
+}
+
+// Send Method to send sms after validating its length
 func (s SMS) Send() (float64, error) {
 
 	const maxMessageLength = 50
