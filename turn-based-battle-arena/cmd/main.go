@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/Darlene-13/learn-go/turn-based-battle-arena/internal/battle"
 	"github.com/Darlene-13/learn-go/turn-based-battle-arena/internal/fighter"
 )
 
@@ -29,11 +30,45 @@ func main() {
 		AttackPower: 10,
 	}
 
+	warrior.Attack(&mage) // Making them fight
+	fmt.Println("Mage HP:", mage.HP)
+
+	healer.Attack(&warrior)
+	fmt.Println("Warrior HP MAX:", warrior.MaxHP)
+	fmt.Println("Warrior HP:", warrior.HP)
+
+	healer.Attack(&warrior)
+	fmt.Println("Warrior HP MAX:", warrior.MaxHP)
+	fmt.Println("Warrior HP:", warrior.HP)
+
+	mage.Attack(&warrior)
+	fmt.Println("Warrior HP MAX:", warrior.MaxHP)
+	fmt.Println("Warrior HP:", warrior.HP)
+
 	fighters := []fighter.Fighter{
 		&healer,
 		&mage,
 		&warrior,
 	}
+
+	teamA := []fighter.Fighter{
+		&warrior,
+	}
+
+	teamB := []fighter.Fighter{
+		&mage,
+	}
+
+	b := battle.Battle{
+		TeamA: teamA,
+		TeamB: teamB,
+	}
+
+	b.RunRound()
+
+	fmt.Println("Warrior alive: ", warrior.IsAlive())
+	fmt.Println("Mage alive: ", mage.IsAlive())
+	fmt.Println("Mage HP: ", mage.HP)
 
 	for _, f := range fighters {
 		fmt.Println(f.IsAlive())

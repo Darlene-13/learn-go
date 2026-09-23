@@ -10,12 +10,15 @@ type Mage struct {
 }
 
 func (m Mage) Attack(target Fighter) string {
+	// Check if they are alive
 	if !m.IsAlive() {
 		return "Cannot attack: target is already dead"
 	}
 
+	//Calculate the damage it is supposed to cause
 	damage := m.AttackPower * 2
 
+	//Let the target be damaged by the damage rate
 	target.TakeDamage(damage)
 
 	return m.Name + "Attacks for " + strconv.Itoa(damage) + "damage"
