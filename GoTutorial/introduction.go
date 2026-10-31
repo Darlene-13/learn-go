@@ -61,3 +61,16 @@ func worker(ch chan string) {
 	message := <-ch
 	fmt.Print("Worker received a message", message)
 }
+
+// Brief little chat about go
+//Package main defines the main package of the program, that every executable go program should have
+// The fmt, imports the fmt string package which provides functions for displaying output
+// func main() defines the main function where the program execution begins
+
+// General Applications of go:
+//1. Web and backend development
+//2. Cloud computing and scalable cloud native applications and microservice architectures
+//3. DevOps and Automation tools: Creating deployment, monitoring and infrastructure management tools
+//4. CLI: Developing fast and portable CLI tools for everyday tasks.
+
+// The following were built in go or least has one of their microservices built in go: Docker, Kubernetes, OpenShift, Dropbox, netflix, influxDB
