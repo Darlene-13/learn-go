@@ -25,7 +25,7 @@ func main() {
 	// Nested if else statements
 	mainW()
 
-	// Multiple if else if
+	// Multiple if else is
 	mainT()
 }
 
